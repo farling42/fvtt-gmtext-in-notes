@@ -14,3 +14,8 @@ This replaces the old Label field which only allowed a single line of text to be
 **GM Label** will be the text displayed on the Note tooltip for GMs only. If left blank, then the *Player Label* will be displayed to GMs as well.
 
 The default FoundryVTT behaviour on initial Note creation will still work, setting the Player Label to the name of the journal entry.
+
+## Support
+
+If you like what it does, then all contributions will be gratefully received at [Kofi](https://ko-fi.com/farling) or [Paypal](https://paypal.me/farling)
+or if you're feeling really generous you could set up a regular contribution at [Patreon](https://www.patreon.com/amusingtime) 
