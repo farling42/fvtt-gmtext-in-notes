@@ -1,3 +1,5 @@
+![Latest Release Download Count](https://img.shields.io/github/downloads/farling42/fvtt-gmtext-in-notes/latest/module.zip)
+
 # Introduction
 
 This module provides the ability for Note tooltips to be configured so that GMs see different text to Players.
