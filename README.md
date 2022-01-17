@@ -11,6 +11,8 @@ This module provides the ability for Note tooltips to be configured so that GMs 
 
 So secret information can be displayed to GMs whilst players see the "public" information about the Note.
 
+This module also allows multiple lines of text to be set for a Note's label.
+
 # Usage
 
 The Note Configuration window has two new fields:
