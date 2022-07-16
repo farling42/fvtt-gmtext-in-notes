@@ -1,12 +1,17 @@
 {
   "name": "gmtext-in-notes",
+  "id": "gmtext-in-notes",
   "title": "GM-only tooltips for Notes",
   "description": "Additional support in Notes to have GM-only tooltip text which is separate from Player tooltip text.",
   "version": "This is auto replaced",
   "library": "false",
-  "manifestPlusVersion": "1.0.0",
-  "minimumCoreVersion": "0.8.6",
-  "compatibleCoreVersion": "9",
+  "minimumCoreVersion": "10",
+  "compatibleCoreVersion": "10",
+	"compatibility": {
+		"minimum" : "10",
+		"verified": "10.273",
+		"maximum" : "10"
+  },  
 	"authors": [
 		{
 			"name": "Farling",
@@ -18,14 +23,16 @@
 			"twitter": "@shambles42"
 		}
 	],
-  "dependencies": [
-		{
-			"name": "lib-wrapper",
-			"manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
-		}
-  ],
+	"relationships": {
+    "requires": [
+		  {
+			  "id": "lib-wrapper",
+			  "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
+		  }
+    ]
+	},
   "esmodules": [
-	"scripts/libwrapper-shim.js",
+	  "scripts/libwrapper-shim.js",
     "scripts/gmtext-in-notes.mjs"
   ],
   "languages": [

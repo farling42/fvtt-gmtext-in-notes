@@ -23,10 +23,10 @@ function Note_drawTooltip(wrapped, ...args) {
 	// NoteDocument#label = get label() { return this.data.text || this.entry?.name || "Unknown"; }
 	// but NoteDocument#data.text can be modified :-)
 	//
-	let saved_text = this.document.data.text;
-	this.document.data.text = newtext;
+	let saved_text = this.document.text;
+	this.document.text = newtext;
 	let result = wrapped(...args);
-	this.document.data.text = saved_text;
+	this.document.text = saved_text;
 	return result;
 }
 
