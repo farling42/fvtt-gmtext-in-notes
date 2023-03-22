@@ -12,22 +12,10 @@ const NOTE_FLAG = `flags.${MODULE_NAME}.${PIN_GM_TEXT}`;
  * @param {function} [wrapped] The wrapped function provided by libWrapper
  * @param {object}   [args]    The normal arguments to Note#drawTooltip
  */
-function Note_drawTooltip(wrapped, ...args) {
+function Note_text(wrapped) {
 	// Only override default if flag(MODULE_NAME,PIN_GM_TEXT) is set
-	const newtext = this.document.getFlag(MODULE_NAME, PIN_GM_TEXT);
-	if (!newtext || newtext.length===0) return wrapped(...args);
-	
-	// Set a different label to be used while we call the original Note.prototype._drawTooltip
-	//
-	// Note#text          = get text()  { return this.document.label; }
-	// NoteDocument#label = get label() { return this.data.text || this.entry?.name || "Unknown"; }
-	// but NoteDocument#data.text can be modified :-)
-	//
-	let saved_text = this.document.text;
-	this.document.text = newtext;
-	let result = wrapped(...args);
-	this.document.text = saved_text;
-	return result;
+	const gmlabel = this.document.getFlag(MODULE_NAME, PIN_GM_TEXT);
+	return (gmlabel?.length>0) ? gmlabel : wrapped();
 }
 
 /**
@@ -46,7 +34,7 @@ export function setNoteGMtext(notedata,text) {
 Hooks.once('canvasInit', () => {
 	// This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
 	if (game.user.isGM) {
-		libWrapper.register(MODULE_NAME, 'Note.prototype._drawTooltip', Note_drawTooltip, libWrapper.WRAPPER);
+		libWrapper.register(MODULE_NAME, 'Note.prototype.text', Note_text, libWrapper.MIXED);
 	}
 })
 
