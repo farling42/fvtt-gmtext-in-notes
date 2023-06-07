@@ -35,6 +35,7 @@ Hooks.once('canvasInit', () => {
 	// This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
 	if (game.user.isGM) {
 		libWrapper.register(MODULE_NAME, 'Note.prototype.text', Note_text, libWrapper.MIXED);
+		libWrapper.register(MODULE_NAME, 'Note.prototype._onUpdate', Note_onUpdate, libWrapper.WRAPPER);
 	}
 })
 
@@ -70,6 +71,16 @@ async function render_note_config(app, html, data) {
 		app.setPosition(pos);
 	}
 }
+
+function Note_onUpdate(wrapper, data, options, userId) {
+// Foundry V11: Note#_onUpdate needs to set refreshText render flag
+	let result = wrapper(data, options, userId);
+	if (this.renderFlags && getProperty(data, NOTE_FLAG)) {
+		this.renderFlags.set({refreshText: true})
+	}
+	return result;
+}
+
 
 Hooks.on("renderNoteConfig", render_note_config);
 

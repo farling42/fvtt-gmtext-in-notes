@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.2
+
+- Fix issue with a change of GM note not immediately being displayed.
+
 ## 2.1.1
 
 - Mark compatible with Foundry 11 (299)
