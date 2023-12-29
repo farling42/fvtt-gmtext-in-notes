@@ -8,13 +8,26 @@ const PIN_GM_TEXT = "gmNote";
 const NOTE_FLAG = `flags.${MODULE_NAME}.${PIN_GM_TEXT}`;
 
 /**
- * If the Note has a GM-NOTE on it, then display that as the tooltip instead of the normal text
+ * If the Note has a GM-NOTE on it, then display that as the tooltip instead of the normal text.
+ * Foundry < V12
  * @param {function} [wrapped] The wrapped function provided by libWrapper
  * @param {object}   [args]    The normal arguments to Note#drawTooltip
  */
 function Note_text(wrapped) {
 	// Only override default if flag(MODULE_NAME,PIN_GM_TEXT) is set
 	const gmlabel = this.document.getFlag(MODULE_NAME, PIN_GM_TEXT);
+	return (gmlabel?.length>0) ? gmlabel : wrapped();
+}
+
+/**
+ * If the Note has a GM-NOTE on it, then display that as the tooltip instead of the normal text.
+ * Foundry V12+
+ * @param {function} wrapped The wrapped function provided by libWrapper
+ * @returns the label for this NoteDocument
+ */
+function NoteDocument_label(wrapped) {
+	// Only override default if flag(MODULE_NAME,PIN_GM_TEXT) is set
+	const gmlabel = this.getFlag(MODULE_NAME, PIN_GM_TEXT);
 	return (gmlabel?.length>0) ? gmlabel : wrapped();
 }
 
@@ -34,7 +47,10 @@ export function setNoteGMtext(notedata,text) {
 Hooks.once('canvasInit', () => {
 	// This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
 	if (game.user.isGM) {
-		libWrapper.register(MODULE_NAME, 'Note.prototype.text', Note_text, libWrapper.MIXED);
+		if (isNewerVersion("12", game.version))
+			libWrapper.register(MODULE_NAME, 'Note.prototype.text', Note_text, libWrapper.MIXED);
+		else
+			libWrapper.register(MODULE_NAME, 'NoteDocument.prototype.label', NoteDocument_label, libWrapper.MIXED);
 		libWrapper.register(MODULE_NAME, 'Note.prototype._onUpdate', Note_onUpdate, libWrapper.WRAPPER);
 	}
 })
