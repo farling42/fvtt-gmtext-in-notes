@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.2.1
+
+- Remove deprecation warning about isNewerVersion.
+
 ## 2.2.0
 
 - Initial compatibility with how Notes are rendered in Foundry V12 (prototype 1).

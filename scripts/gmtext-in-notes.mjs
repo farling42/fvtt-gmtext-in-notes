@@ -47,7 +47,7 @@ export function setNoteGMtext(notedata,text) {
 Hooks.once('canvasInit', () => {
 	// This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
 	if (game.user.isGM) {
-		if (isNewerVersion("12", game.version))
+		if (foundry.utils.isNewerVersion("12", game.version))
 			libWrapper.register(MODULE_NAME, 'Note.prototype.text', Note_text, libWrapper.MIXED);
 		else
 			libWrapper.register(MODULE_NAME, 'NoteDocument.prototype.label', NoteDocument_label, libWrapper.MIXED);
