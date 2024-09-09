@@ -39,7 +39,7 @@ function NoteDocument_label(wrapped) {
  */
 export function setNoteGMtext(notedata,text) {
 	// notedata might not exist as a Note, so setFlag is not available
-	setProperty(notedata, NOTE_FLAG, text);
+	foundry.utils.setProperty(notedata, NOTE_FLAG, text);
 }
 
 // TODO: Add option to Note editor window
@@ -91,7 +91,7 @@ async function render_note_config(app, html, data) {
 function Note_onUpdate(wrapper, data, options, userId) {
 // Foundry V11: Note#_onUpdate needs to set refreshText render flag
 	let result = wrapper(data, options, userId);
-	if (this.renderFlags && getProperty(data, NOTE_FLAG)) {
+	if (this.renderFlags && foundry.utils.getProperty(data, NOTE_FLAG)) {
 		this.renderFlags.set({refreshText: true})
 	}
 	return result;

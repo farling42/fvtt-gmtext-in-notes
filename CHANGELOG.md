@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.2.2
+
+- Remove deprecation warning about getProperty and setProperty on Founvdry V12.
+- Update verified to 12.331.
+
 ## 2.2.1
 
 - Remove deprecation warning about isNewerVersion.

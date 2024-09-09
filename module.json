@@ -1,15 +1,11 @@
 {
-  "name": "gmtext-in-notes",
   "id": "gmtext-in-notes",
   "title": "GM-only tooltips for Notes",
   "description": "Additional support in Notes to have GM-only tooltip text which is separate from Player tooltip text.",
   "version": "This is auto replaced",
-  "library": "false",
-  "minimumCoreVersion": "10",
-  "compatibleCoreVersion": "10",
 	"compatibility": {
 		"minimum" : "10",
-		"verified": "12.318"
+		"verified": "12.331"
   },  
 	"authors": [
 		{
