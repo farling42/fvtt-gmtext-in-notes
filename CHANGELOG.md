@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.2.3
+
+- Mark as NOT compatible with Foundry V13.
+
 ## 2.2.2
 
 - Remove deprecation warning about getProperty and setProperty on Founvdry V12.
