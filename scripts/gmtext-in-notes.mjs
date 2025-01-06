@@ -9,18 +9,6 @@ const NOTE_FLAG = `flags.${MODULE_NAME}.${PIN_GM_TEXT}`;
 
 /**
  * If the Note has a GM-NOTE on it, then display that as the tooltip instead of the normal text.
- * Foundry < V12
- * @param {function} [wrapped] The wrapped function provided by libWrapper
- * @param {object}   [args]    The normal arguments to Note#drawTooltip
- */
-function Note_text(wrapped) {
-	// Only override default if flag(MODULE_NAME,PIN_GM_TEXT) is set
-	const gmlabel = this.document.getFlag(MODULE_NAME, PIN_GM_TEXT);
-	return (gmlabel?.length>0) ? gmlabel : wrapped();
-}
-
-/**
- * If the Note has a GM-NOTE on it, then display that as the tooltip instead of the normal text.
  * Foundry V12+
  * @param {function} wrapped The wrapped function provided by libWrapper
  * @returns the label for this NoteDocument
@@ -42,16 +30,11 @@ export function setNoteGMtext(notedata,text) {
 	foundry.utils.setProperty(notedata, NOTE_FLAG, text);
 }
 
-// TODO: Add option to Note editor window
-
 Hooks.once('canvasInit', () => {
 	// This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
 	if (game.user.isGM) {
-		if (foundry.utils.isNewerVersion("12", game.version))
-			libWrapper.register(MODULE_NAME, 'Note.prototype.text', Note_text, libWrapper.MIXED);
-		else
-			libWrapper.register(MODULE_NAME, 'NoteDocument.prototype.label', NoteDocument_label, libWrapper.MIXED);
-		libWrapper.register(MODULE_NAME, 'Note.prototype._onUpdate', Note_onUpdate, libWrapper.WRAPPER);
+		libWrapper.register(MODULE_NAME, 'CONFIG.Note.documentClass.prototype.label',   NoteDocument_label, libWrapper.MIXED);
+		libWrapper.register(MODULE_NAME, 'CONFIG.Note.objectClass.prototype._onUpdate', Note_onUpdate,      libWrapper.WRAPPER);
 	}
 })
 
@@ -59,33 +42,30 @@ Hooks.once('canvasInit', () => {
  * Update Note config window with a text box to allow entry of GM-text.
  * Also replace single-line of "Text Label" with a textarea to allow multi-line text.
  * @param {NoteConfig} app    The Application instance being rendered (NoteConfig)
- * @param {jQuery} html       The inner HTML of the document that will be displayed and may be modified
+ * @param {HTMLElement} html  The inner HTML of the document that will be displayed and may be modified
  * @param {object] data       The object of data used when rendering the application (from NoteConfig#getData)
  */
 async function render_note_config(app, html, data) {
 	// Input for GM Label
-	let gmtext = data.document.getFlag(MODULE_NAME, PIN_GM_TEXT);
+  const note = data.document;
+  let gmtext = note.getFlag(MODULE_NAME, PIN_GM_TEXT);
 	if (!gmtext) gmtext = "";
-	let gm_text = $(`<div class='form-group'><label>GM Label</label><div class='form-fields'><textarea name='${NOTE_FLAG}'>${gmtext}</textarea></div></div>`)
-	html.find("input[name='text']").parent().parent().after(gm_text);
-	
-	// Multiline input for Text Label
-	let initial_text = data.data.text ?? data.entry.name;
-	let label = $(`<div class='form-group'><label>Player Label</label><div class='form-fields'><textarea name='text' placeholder='${data.entry.name}'>${initial_text}</textarea></div></div>`)
-	html.find("input[name='text']").parent().parent().after(label);
-	
-	// Hide the old text label input field
-	html.find("input[name='text']").parent().parent().remove();
-	
-	//let reveal_icon = $(`<div class='form-group'><label>Icon follows Reveal</label><div class='form-fields'><input type='checkbox' name='useRevealIcon'></div></div>`)
-	//html.find("select[name='icon']").parent().parent().after(reveal_icon);
 
-	// Force a recalculation of the height
-	if (!app._minimized) {
-		let pos = app.position;
-		pos.height = 'auto'
-		app.setPosition(pos);
-	}
+  const flags = new foundry.data.fields.ObjectField({label: "module-flags"}, {parent: data.fields.flags, name: MODULE_NAME});
+
+  const otherfield = app.element.querySelector('div.form-group input[name="fontFamily"]').parentElement.parentElement;
+  const fieldset = otherfield.parentElement.parentElement.parentElement;
+
+  // New Field
+  const gmtext_input = (new foundry.data.fields.StringField(
+    {
+      label: "Text Label for GM",
+      initial: (note.getFlag(MODULE_NAME, PIN_GM_TEXT) ?? "") },
+    { parent: flags, name: PIN_GM_TEXT })).toFormGroup();
+
+  otherfield.parentElement.insertBefore(gmtext_input, otherfield);
+
+  // Replace old label with multi-line label
 }
 
 function Note_onUpdate(wrapper, data, options, userId) {

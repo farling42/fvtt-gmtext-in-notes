@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 13.0.0
+
+- Updated to work in Foundry V13+ (and not earlier).
+
 ## 2.2.3
 
 - Mark as NOT compatible with Foundry V13.
