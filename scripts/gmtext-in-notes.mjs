@@ -43,7 +43,7 @@ Hooks.once('canvasInit', () => {
  * Also replace single-line of "Text Label" with a textarea to allow multi-line text.
  * @param {NoteConfig} app    The Application instance being rendered (NoteConfig)
  * @param {HTMLElement} html  The inner HTML of the document that will be displayed and may be modified
- * @param {object] data       The object of data used when rendering the application (from NoteConfig#getData)
+ * @param {object} data       The object of data used when rendering the application (from NoteConfig#getData)
  */
 async function render_note_config(app, html, data) {
 	// Input for GM Label
