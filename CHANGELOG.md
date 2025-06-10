@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 13.0.2
+
+- Get GM Label appearing in the Note Config dialog for Foundry V13
+- Multi-line labels are not available (yet).
+
 ## 13.0.0
 
 - Updated to work in Foundry V13+ (and not earlier).

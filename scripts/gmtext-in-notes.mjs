@@ -53,7 +53,7 @@ async function render_note_config(app, html, data) {
 
   const flags = new foundry.data.fields.ObjectField({label: "module-flags"}, {parent: data.fields.flags, name: MODULE_NAME});
 
-  const otherfield = app.element.querySelector('div.form-group input[name="fontFamily"]').parentElement.parentElement;
+  const otherfield = app.element.querySelector('div.form-group select[name="fontFamily"]').parentElement.parentElement;
   const fieldset = otherfield.parentElement.parentElement.parentElement;
 
   // New Field
