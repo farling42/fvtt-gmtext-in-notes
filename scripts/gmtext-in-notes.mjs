@@ -72,7 +72,7 @@ function Note_onUpdate(wrapper, data, options, userId) {
 // Foundry V11: Note#_onUpdate needs to set refreshText render flag
 	let result = wrapper(data, options, userId);
 	if (this.renderFlags && foundry.utils.getProperty(data, NOTE_FLAG)) {
-		this.renderFlags.set({refreshText: true})
+		this.renderFlags.set({refreshTooltip: true})
 	}
 	return result;
 }
